@@ -1,0 +1,29 @@
+List all office information, a very simple query to start off part 3!
+select * from offices;
+
+Get a count of all the orders. Again another simple query, but they will gradually get more interesting/complex!
+select count(*) from orders;
+
+See if any employees have the same first name as the customers. 
+select contactfirstname from customers where contactfirstname in (select firstname from employees);
+
+Return the name of any product that has not been purchased. Surprisingly the result is very small.
+select productname from products where productcode not in (select productcode from orderdetails where ordernumber in ( select ordernumber from orders));
+
+See if any item was shipped after the date that the customer required it to be shipped. (Someone has some explaining to do!)
+select contactfirstname,contactlastname, phone from customers where customernumber in (select customernumber from orders where shippeddate > requireddate);
+
+Check to see if any products are out of stock. (Time to restock!)
+select productname, productcode, quantityinstock from products where quantityinstock = 0;
+
+Get a list of employees with their phone number and extension.
+select employees.lastname, employees.firstname, offices.phone, employees.extension
+    -> from offices
+    -> inner join employees
+    -> on offices.officecode = employees.officecode;
+    
+See which customer goes with which sales rep.
+select customers.contactlastname, customers.contactfirstname, employees.lastname, employees.firstname, employees.email from customers inner join employees on customers.salesrepemployeenumber = employees.employeeNumber;
+
+
+ 
